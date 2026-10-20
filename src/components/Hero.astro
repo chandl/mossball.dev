@@ -1,207 +1,119 @@
 ---
-import { company } from '../data/company';
+import { plateSvg } from '../scripts/mark';
 ---
 
 <section class="hero">
   <div class="wrap">
-    <div>
-      <span class="chip rise">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M12 21v-9" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"></path>
-          <path d="M12 13C12 8 8 6 4 6c0 4 3 7 8 7z" fill="currentColor" opacity=".55"></path>
-          <path d="M12 11c0-4 3-6 8-6 0 4-3 6-8 6z" fill="currentColor"></path>
-        </svg>
-        Now growing: Niwa
-      </span>
-      <h1 class="serif rise" style="--d:1">
-        Good software,<br />
-        <em
-          >grown in-house.<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"
-            ><path
-              d="M3 14C40 4 70 18 105 10s70 8 105 0 60-6 87 2"
-              fill="none"
-              stroke="#8DBF7A"
-              stroke-width="5"
-              stroke-linecap="round"></path></svg
-          ></em
-        >
-      </h1>
-      <p class="lead rise" style="--d:2">
-        Mossball Labs is an independent studio that designs, builds and runs its own apps. Our first is <a
-          href="https://niwaapp.com">Niwa</a
-        >, a friendly way to learn Japanese.
+    <div class="copy">
+      <p class="kicker">Independent software studio</p>
+      <h1>Good software,<br /> <em>grown in-house.</em></h1>
+      <p class="lead">
+        We design, build, and run our own software products. Small ideas, carefully made and improved over time.
       </p>
-      <div class="ctas rise" style="--d:3">
-        <a href="#products" class="btn btn-primary">See our products</a>
-        <a href={`mailto:${company.email}`} class="btn">{company.email}</a>
-      </div>
+      <a class="go" href="#products">Explore our products <span aria-hidden="true">→</span></a>
     </div>
 
-    <div class="specimen rise" style="--d:2">
-      <canvas aria-hidden="true"></canvas>
-      <svg class="spark" viewBox="0 0 24 24" aria-hidden="true"
-        ><path d="M12 2c.6 5 2 7.4 10 10-8 2.6-9.4 5-10 10-.6-5-2-7.4-10-10 8-2.6 9.4-5 10-10z"></path></svg
-      >
-      <svg class="spark b" viewBox="0 0 24 24" aria-hidden="true"
-        ><path d="M12 2c.6 5 2 7.4 10 10-8 2.6-9.4 5-10 10-.6-5-2-7.4-10-10 8-2.6 9.4-5 10-10z"></path></svg
-      >
-      <div class="read tl">Specimen <b>No. 001</b><br /><i>Aegagropila linnaei</i></div>
-      <div class="read tr">grows<br /><b>~5 mm a year</b></div>
-      <div class="read bl">{company.name}, Vancouver WA</div>
-    </div>
+    <figure class="plate rise" aria-labelledby="plate-cap">
+      <div class="head meta">
+        <span>Pl. 001</span>
+        <i>Aegagropila linnaei</i>
+      </div>
+      <div class="art">
+        <Fragment set:html={plateSvg().replace('<svg ', '<svg aria-hidden="true" ')} />
+        <p class="note meta">grows ~5&nbsp;mm<br />a year</p>
+      </div>
+      <figcaption id="plate-cap">
+        <span class="meta">Fig. 1</span> Marimo, the slow-growing moss ball this studio is named after.
+      </figcaption>
+    </figure>
   </div>
 </section>
 
-<script>
-  import { mountOrb } from '../scripts/orb';
-  const canvas = document.querySelector<HTMLCanvasElement>('.specimen canvas');
-  if (canvas) mountOrb(canvas);
-</script>
-
 <style>
   .hero {
-    padding-block: clamp(40px, 6vw, 80px) clamp(48px, 7vw, 88px);
+    padding-block: clamp(48px, 7vw, 96px) var(--section);
   }
   .wrap {
     display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: clamp(32px, 5vw, 64px);
+    grid-template-columns: 7fr 5fr;
+    gap: clamp(32px, 6vw, 88px);
     align-items: center;
   }
-  .chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    height: 32px;
-    padding-inline: 14px;
-    border-radius: 999px;
-    background: var(--moss-tint);
-    color: var(--moss);
+  .kicker {
     font-size: 13px;
     font-weight: 600;
-  }
-  .chip svg {
-    width: 14px;
-    height: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--moss);
   }
   h1 {
-    font-size: clamp(44px, 6.2vw, 78px);
-    line-height: 1.02;
-    letter-spacing: -0.03em;
-    margin-block: 22px;
-  }
-  h1 em {
-    position: relative;
-    white-space: nowrap;
-  }
-  h1 em svg {
-    position: absolute;
-    left: 0;
-    bottom: -0.12em;
-    width: 100%;
-    height: 0.22em;
+    margin-block: var(--s3);
+    font-size: clamp(46px, 7vw, 92px);
+    font-weight: 380;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
   }
   .lead {
-    font-size: 18px;
+    max-width: 40ch;
+    margin-bottom: var(--s3);
+    font-size: clamp(18px, 1.6vw, 20px);
     color: var(--ink-2);
-    max-width: 46ch;
-  }
-  .lead a {
-    color: var(--ink);
-    font-weight: 600;
-    border-bottom: 2px solid var(--moss-2);
-  }
-  .ctas {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 32px;
   }
 
-  .specimen {
-    position: relative;
-    aspect-ratio: 1;
-    border-radius: 32px;
-    border: 1px solid var(--line);
-    background: radial-gradient(circle at 50% 46%, #fff 0%, var(--card) 45%, #f1efe7 100%);
-    box-shadow: var(--shadow);
+  .plate {
+    border-top: 1px solid var(--ink);
+    padding-top: 12px;
   }
-  canvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 1s ease;
+  .head {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--s2);
   }
-  canvas:global(.ready) {
-    opacity: 1;
-  }
-  .read {
-    position: absolute;
-    font-size: 12px;
-    color: var(--muted);
-    line-height: 1.4;
-  }
-  .read b {
-    color: var(--ink-2);
-    font-weight: 600;
-  }
-  .read i {
+  .head i {
     font-family: var(--serif);
-    font-size: 14px;
+    font-size: 15px;
     color: var(--ink-2);
   }
-  .tl {
-    top: 20px;
-    left: 24px;
+  .art {
+    position: relative;
   }
-  .tr {
-    top: 20px;
-    right: 24px;
-    text-align: right;
+  .art :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
   }
-  .bl {
-    bottom: 20px;
-    left: 24px;
-  }
-  .spark {
+  /* sits at the end of the leader line drawn in plateSvg() */
+  .note {
     position: absolute;
-    top: 22%;
-    left: 14%;
-    width: 18px;
-    fill: var(--moss-2);
+    right: 0;
+    bottom: 71%;
+    margin: 0 0 4px;
+    text-align: right;
+    color: var(--moss-dark);
   }
-  .spark.b {
-    top: auto;
-    left: auto;
-    bottom: 20%;
-    right: 13%;
-    width: 12px;
+  figcaption {
+    padding-top: 12px;
+    border-top: 1px solid var(--rule);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
   }
-  @media (prefers-reduced-motion: no-preference) {
-    .spark {
-      animation: twinkle 3.2s ease-in-out infinite;
-    }
-    .spark.b {
-      animation-delay: 1.4s;
-    }
-  }
-  @keyframes twinkle {
-    50% {
-      opacity: 0.25;
-      transform: scale(0.7) rotate(20deg);
-    }
+  figcaption .meta {
+    margin-right: 6px;
+    color: var(--moss);
   }
 
   @media (max-width: 880px) {
     .wrap {
       grid-template-columns: 1fr;
     }
-    .specimen {
-      width: 100%;
-      max-width: 440px;
-      justify-self: center;
+    .plate {
+      max-width: 420px;
+    }
+  }
+  @media (max-width: 480px) {
+    .plate {
+      max-width: 320px;
     }
   }
 </style>

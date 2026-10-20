@@ -1,50 +1,69 @@
 ---
 import Logo from './Logo.astro';
+import { company } from '../data/company';
 ---
 
 <header>
   <div class="wrap">
-    <Logo />
-    <nav>
-      <a href="/#products">Products</a>
-      <a href="/#about">About</a>
-      <a href="/#hello" class="btn btn-primary">Say hello</a>
-    </nav>
+    <div class="bar">
+      <Logo />
+      <p class="meta">Independent software · {company.location.replace('Washington', 'WA')}</p>
+      <nav aria-label="Main">
+        <a href="/#products">Products</a>
+        <a href="/#about">About</a>
+        <a href="/#hello">Contact</a>
+      </nav>
+    </div>
   </div>
 </header>
 
 <style>
-  header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: rgb(246 244 238 / 0.8);
-    backdrop-filter: blur(12px);
-  }
-  .wrap {
-    display: flex;
+  .bar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
-    height: 72px;
+    gap: var(--s2);
+    min-height: 76px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .meta {
+    text-align: center;
   }
   nav {
+    justify-self: end;
     display: flex;
-    align-items: center;
-    gap: 28px;
+    gap: var(--s3);
     font-size: 15px;
+  }
+  nav a {
+    padding-block: 10px;
     color: var(--ink-2);
+    text-decoration: underline 1px transparent;
+    text-underline-offset: 6px;
   }
-  nav a:not(.btn):hover {
+  nav a:hover {
     color: var(--ink);
+    text-decoration-color: var(--moss);
   }
-  .btn {
-    height: 38px;
-    padding-inline: 16px;
-    font-size: 14px;
-  }
-  @media (max-width: 640px) {
-    nav a:not(.btn) {
+  @media (max-width: 880px) {
+    .bar {
+      grid-template-columns: 1fr auto;
+    }
+    .meta {
       display: none;
+    }
+  }
+  @media (max-width: 480px) {
+    .bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0 var(--s2);
+      padding-block: 10px 4px;
+    }
+    nav {
+      gap: var(--s2);
+      font-size: 14px;
     }
   }
 </style>

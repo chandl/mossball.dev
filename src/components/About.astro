@@ -1,52 +1,108 @@
 ---
+import Mark from './Mark.astro';
 import { company } from '../data/company';
 ---
 
 <section id="about" class="section">
-  <div class="wrap about reveal">
-    <div>
-      <span class="label"><i>3</i>About</span>
-      <blockquote class="serif">
+  <div class="wrap about">
+    <div class="main">
+      <p class="marker"><b>§ 03</b> About</p>
+      <blockquote>
         Named after the marimo, a moss ball that keeps <em>growing</em> for decades, one layer at a time.
       </blockquote>
+      <div class="body">
+        <p>
+          {company.legalName} is an independent software company in {company.location}, founded by <a
+            class="link"
+            href={company.founder.url}>{company.founder.name}</a
+          >.
+        </p>
+        <p>We make a small number of products and look after each one for years.</p>
+      </div>
     </div>
-    <div class="body">
-      <p>
-        {company.legalName} is an independent software company in {company.location}, founded by <a
-          href={company.founder.url}>{company.founder.name}</a
-        >.
-      </p>
-      <p>We make a small number of products and look after each one for years.</p>
-    </div>
+
+    <aside class="label" aria-label="Studio details">
+      <div class="label-head">
+        <Mark class="mark" />
+        <span class="meta">Studio record</span>
+      </div>
+      <dl>
+        <div><dt>Name</dt><dd>{company.legalName}</dd></div>
+        <div><dt>Founded</dt><dd>{company.founded}</dd></div>
+        <div><dt>Location</dt><dd>{company.location}</dd></div>
+        <div><dt>Founder</dt><dd>{company.founder.name}</dd></div>
+      </dl>
+    </aside>
   </div>
 </section>
 
 <style>
   .about {
     display: grid;
-    grid-template-columns: 1.15fr 1fr;
-    gap: clamp(32px, 6vw, 80px);
-    align-items: center;
+    grid-template-columns: 7fr 4fr;
+    gap: clamp(32px, 7vw, 112px);
+    align-items: end;
   }
   blockquote {
-    margin: 16px 0 0;
-    font-size: clamp(28px, 3.4vw, 40px);
-    line-height: 1.2;
+    margin: var(--s3) 0 var(--s4);
+    font-family: var(--serif);
+    font-size: clamp(28px, 3.4vw, 42px);
+    font-weight: 380;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  blockquote em {
+    color: var(--moss);
   }
   .body {
     display: grid;
-    gap: 14px;
+    gap: 12px;
+    max-width: 52ch;
     color: var(--ink-2);
-    font-size: 17px;
   }
-  .body a {
-    color: var(--ink);
-    font-weight: 600;
-    border-bottom: 2px solid var(--moss-2);
+
+  /* a herbarium sheet label */
+  .label {
+    border: 1px solid var(--ink);
+    padding: var(--s3);
+    background: var(--paper);
+  }
+  .label-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .label-head :global(.mark) {
+    width: 28px;
+    height: 28px;
+  }
+  dl div {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    gap: var(--s2);
+    padding-block: 10px;
+    border-bottom: 1px dashed var(--rule);
+    font-size: 15px;
+  }
+  dl div:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+  dt {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    padding-top: 2px;
   }
   @media (max-width: 880px) {
     .about {
       grid-template-columns: 1fr;
+    }
+    .label {
+      max-width: 420px;
     }
   }
 </style>

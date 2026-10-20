@@ -6,7 +6,8 @@ import { company } from '../data/company';
 <footer>
   <div class="wrap">
     <Logo />
-    <nav>
+    <p class="meta colophon">Set in Fraunces &amp; Instrument Sans. Grown in {company.location}.</p>
+    <nav aria-label="Footer">
       <a href="/privacy">Privacy</a>
       <a href={`mailto:${company.email}`}>Contact</a>
       <span>© {company.founded} {company.legalName}</span>
@@ -16,7 +17,7 @@ import { company } from '../data/company';
 
 <style>
   footer {
-    padding-block: 32px 48px;
+    padding-bottom: var(--s6);
     color: var(--muted);
     font-size: 14px;
   }
@@ -25,12 +26,22 @@ import { company } from '../data/company';
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    gap: 16px;
+    gap: var(--s2) var(--s4);
+  }
+  .wrap::before {
+    content: '';
+    flex-basis: 100%;
+    height: var(--s3);
+    border-top: 1px solid var(--ink);
   }
   nav {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: var(--s1) var(--s3);
+  }
+  nav a {
+    padding-block: 10px;
+    margin-block: -10px;
   }
   a:hover {
     color: var(--ink);

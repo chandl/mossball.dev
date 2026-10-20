@@ -1,162 +1,217 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 
 const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+const [lead, ...rest] = products.map((p) => p.data);
 
-const statusLabel = { live: 'Live', waitlist: 'Waitlist open', sprouting: 'Sprouting' } as const;
+const statusLabel = { live: 'Live', waitlist: 'Waitlist open', sprouting: 'In the works' } as const;
 const host = (url: string) => new URL(url).host;
+const no = (i: number) => String(i + 1).padStart(2, '0');
 ---
 
 <section id="products" class="section">
   <div class="wrap">
-    <header class="section-head reveal">
-      <span class="label"><i>1</i>Products</span>
-      <h2 class="section-title serif">What we're <em>growing.</em></h2>
+    <header class="top">
+      <p class="marker"><b>§ 01</b> Products</p>
+      <h2>What we're <em>growing.</em></h2>
     </header>
 
-    <div class="grid">
-      {
-        products.map(({ data }) => {
-          const Tag = data.url ? 'a' : 'div';
-          return (
-            <Tag class:list={['card reveal', `tone-${data.tone}`, { seedling: !data.url }]} href={data.url}>
-              <div class="top">
-                <div class="icon">
-                  {data.icon ?? (
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M12 21v-9" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
-                      <path d="M12 13C12 8 8 6 4 6c0 4 3 7 8 7z" fill="currentColor" opacity=".55" />
-                      <path d="M12 11c0-4 3-6 8-6 0 4-3 6-8 6z" fill="currentColor" />
-                    </svg>
-                  )}
-                </div>
-                <span class={`status status-${data.status}`}>{statusLabel[data.status]}</span>
+    {
+      lead && (
+        <article class="lead" aria-labelledby="p-lead">
+          <div class="text">
+            <p class="meta id">
+              <span>No. 01</span>
+              {lead.glyph && <span lang="ja">{lead.glyph}</span>}
+              <span class="dot">{statusLabel[lead.status]}</span>
+            </p>
+            <h3 id="p-lead">{lead.name}</h3>
+            {lead.motto && <p class="motto">{lead.motto}</p>}
+            <p class="desc">{lead.tagline}</p>
+            {lead.features.length > 0 && (
+              <dl>
+                {lead.features.map((f) => (
+                  <div>
+                    <dt>{f.name}</dt>
+                    <dd>{f.text}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+            {lead.url && (
+              <a class="go" href={lead.url}>
+                {lead.status === 'waitlist' ? 'Join the waitlist' : `Visit ${lead.name}`} at {host(lead.url)}
+                <span aria-hidden="true">→</span>
+              </a>
+            )}
+          </div>
+
+          {lead.shot && (
+            <figure class="shot">
+              <div class="frame">
+                <Image src={lead.shot.src} alt={lead.shot.alt} widths={[390, 780]} sizes="(max-width: 880px) 92vw, 460px" />
               </div>
-              <h3 class="serif">{data.name}</h3>
-              <p>{data.tagline}</p>
-              {data.tags.length > 0 && (
-                <ul class="tags">
-                  {data.tags.map((t) => (
-                    <li>{t}</li>
-                  ))}
-                </ul>
-              )}
-              {data.url && <span class="go">{host(data.url)} →</span>}
-            </Tag>
-          );
-        })
-      }
-    </div>
+              <figcaption>
+                <span class="meta">Fig. 2</span> {lead.shot.caption}
+              </figcaption>
+            </figure>
+          )}
+        </article>
+      )
+    }
+
+    {
+      rest.map((p, i) => (
+        <article class="minor">
+          <p class="meta">No. {no(i + 1)}</p>
+          <h3>{p.name}</h3>
+          <p class="desc">{p.tagline}</p>
+          <p class="meta dot">{statusLabel[p.status]}</p>
+        </article>
+      ))
+    }
   </div>
 </section>
 
 <style>
-  .grid {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 20px;
-  }
-  .card {
-    --tone: var(--moss-tint);
-    --tone-ink: var(--moss);
-    display: grid;
-    gap: 14px;
-    align-content: start;
-    padding: 28px;
-    border-radius: 28px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    box-shadow: var(--shadow);
-    transition: transform 0.35s var(--ease);
-  }
-  .tone-peach {
-    --tone: var(--peach);
-    --tone-ink: var(--peach-ink);
-  }
-  .tone-sky {
-    --tone: var(--sky);
-    --tone-ink: #2f5d75;
-  }
-  a.card:hover {
-    transform: translateY(-4px);
-  }
-  .card.seedling {
-    background: transparent;
-    box-shadow: none;
-    border: 1.5px dashed var(--line-2);
-  }
-  .seedling h3 {
-    color: var(--muted);
-  }
   .top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-  }
-  .icon {
     display: grid;
-    place-items: center;
-    width: 56px;
-    height: 56px;
-    border-radius: 16px;
-    background: var(--tone);
-    color: var(--tone-ink);
-    font-size: 26px;
+    gap: var(--s2);
+    margin-bottom: var(--s6);
   }
-  .icon svg {
-    width: 26px;
-    height: 26px;
+  h2 {
+    font-size: clamp(36px, 4.6vw, 56px);
   }
-  .status {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 5px 12px;
-    border-radius: 999px;
-    font-size: 13px;
-    font-weight: 600;
-    background: var(--tone);
-    color: var(--tone-ink);
+
+  .lead {
+    display: grid;
+    grid-template-columns: 6fr 5fr;
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
+    padding-top: var(--s4);
+    border-top: 1px solid var(--ink);
   }
-  .status::before {
-    content: '';
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: currentColor;
-  }
-  h3 {
-    font-size: 32px;
-    line-height: 1.1;
-  }
-  p {
-    color: var(--ink-2);
-  }
-  .tags {
+  .id {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+    gap: 6px 20px;
+    align-items: baseline;
   }
-  .tags li {
-    padding: 3px 10px;
-    border-radius: 999px;
-    background: var(--bg);
+  .id [lang='ja'] {
+    font-family: var(--serif);
+    font-size: 15px;
     color: var(--ink-2);
-    font-size: 12px;
-    font-weight: 500;
   }
-  .go {
-    margin-top: 4px;
-    font-weight: 600;
+  .id .dot {
+    color: var(--moss-dark);
+  }
+  .lead h3 {
+    margin-top: var(--s3);
+    font-size: clamp(56px, 7vw, 88px);
+    font-weight: 400;
+    line-height: 0.95;
+  }
+  .motto {
+    margin-top: 10px;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(22px, 2.2vw, 28px);
     color: var(--moss);
   }
-  @media (max-width: 880px) {
-    .grid {
+  .desc {
+    max-width: 46ch;
+    margin-top: var(--s3);
+    color: var(--ink-2);
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 var(--s4);
+    margin-block: var(--s4) var(--s3);
+  }
+  dl div {
+    padding-block: 14px;
+    border-top: 1px solid var(--rule);
+  }
+  dl div:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+  dt {
+    font-weight: 600;
+    font-size: 15px;
+  }
+  dd {
+    margin-top: 2px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .frame {
+    padding: clamp(16px, 3vw, 36px);
+    background: var(--paper-alt);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .shot img {
+    width: 100%;
+    transition: transform 0.6s var(--ease);
+  }
+  .frame:hover img {
+    transform: scale(1.015);
+  }
+  .shot figcaption {
+    margin-top: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .shot figcaption .meta {
+    margin-right: 6px;
+    color: var(--moss);
+  }
+
+  .minor {
+    display: grid;
+    grid-template-columns: 1fr 3fr 5fr auto;
+    gap: var(--s3);
+    align-items: baseline;
+    margin-top: var(--s8);
+    padding-top: var(--s3);
+    border-top: 1px solid var(--rule);
+  }
+  .minor h3 {
+    font-size: 24px;
+    color: var(--ink-2);
+  }
+  .minor .desc {
+    margin: 0;
+    font-size: 16px;
+    color: var(--muted);
+  }
+  /* hollow dot: not yet live */
+  .minor .dot::before {
+    background: none;
+    box-shadow: inset 0 0 0 1.5px var(--moss);
+  }
+
+  @media (max-width: 1000px) {
+    dl {
       grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 880px) {
+    .lead {
+      grid-template-columns: 1fr;
+    }
+    .shot {
+      max-width: 520px;
+    }
+    .minor {
+      grid-template-columns: 1fr;
+      gap: var(--s1);
     }
   }
 </style>

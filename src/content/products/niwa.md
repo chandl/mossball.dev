@@ -1,10 +1,24 @@
 ---
 name: Niwa
-tagline: Learn Japanese a little every day. One short daily session, real sentences and spaced repetition, and a garden that grows as you do.
+motto: A little Japanese, every day.
+tagline: Build a Japanese learning habit with real sentences and spaced repetition. One short session a day, at your own pace, and a garden that grows as you learn.
 url: https://niwaapp.com
 status: waitlist
-tags: [Offline-first, Language learning, Spaced repetition]
-icon: 庭
-tone: peach
+glyph: 庭
+features:
+  - name: Daily practice
+    text: One short session fits into a normal day. Showing up matters more than doing a lot.
+  - name: Real sentences
+    text: Words are learned the way they're used, inside sentences rather than on their own.
+  - name: Spaced repetition
+    text: Reviews come back on a schedule, so what you've learned stays learned.
+  - name: Offline-first
+    text: Practice keeps working without a connection.
+  - name: Nothing to catch up on
+    text: Miss a day and your garden simply waits. No guilt, no hearts to lose.
+shot:
+  src: ../../assets/niwa-home.png
+  alt: The Niwa home screen. A greeting reads こんばんは, Good evening, above a garden scene with an autumn maple, a stone lantern and the marimo mascot.
+  caption: Niwa's home screen. The garden grows as you practise.
 order: 1
 ---

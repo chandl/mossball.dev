@@ -1,17 +1,18 @@
 ---
-import Mark from './Mark.astro';
 import { company } from '../data/company';
 ---
 
 <section id="hello" class="section">
   <div class="wrap">
-    <div class="hello reveal">
-      <Mark class="ball" />
+    <div class="hello">
       <div>
-        <h2 class="serif">Say hello!</h2>
-        <p>Questions, ideas, partnerships, or a bug you found. We read every message.</p>
+        <p class="marker"><b>§ 04</b> Contact</p>
+        <h2>Say <em>hello.</em></h2>
       </div>
-      <a class="btn" href={`mailto:${company.email}`}>{company.email}</a>
+      <div class="body">
+        <p>Questions, ideas, partnerships, or a bug you found. We read every message.</p>
+        <a class="email" href={`mailto:${company.email}`}>{company.email}</a>
+      </div>
     </div>
   </div>
 </section>
@@ -21,41 +22,44 @@ import { company } from '../data/company';
     padding-top: 0;
   }
   .hello {
-    position: relative;
-    overflow: hidden;
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 24px;
-    align-items: center;
-    padding: clamp(36px, 6vw, 72px);
-    border-radius: 36px;
-    background: var(--moss);
-    color: #fff;
+    grid-template-columns: 5fr 7fr;
+    gap: var(--s3) clamp(32px, 6vw, 96px);
+    align-items: end;
+    padding-top: var(--s4);
+    border-top: 1px solid var(--ink);
+  }
+  .hello > div:first-child {
+    display: grid;
+    gap: var(--s2);
   }
   h2 {
-    font-size: clamp(36px, 5vw, 60px);
-    line-height: 1;
-    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+    font-size: clamp(40px, 5vw, 64px);
   }
-  p {
-    margin-top: 12px;
-    color: #d6e5d0;
-    max-width: 40ch;
+  .body {
+    display: grid;
+    gap: var(--s2);
+    justify-items: start;
   }
-  .btn {
-    position: relative;
-    background: #fff;
-    color: var(--moss);
-    border: 0;
+  .body p {
+    max-width: 44ch;
+    color: var(--ink-2);
   }
-  .hello :global(.ball) {
-    position: absolute;
-    right: -60px;
-    bottom: -90px;
-    width: 280px;
-    height: 280px;
-    opacity: 0.14;
-    pointer-events: none;
+  .email {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3.4vw, 40px);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+    color: var(--moss-dark);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 8px;
+    text-decoration-color: var(--sage);
+  }
+  .email:hover {
+    color: var(--ink);
+    text-decoration-color: var(--moss);
   }
   @media (max-width: 880px) {
     .hello {
