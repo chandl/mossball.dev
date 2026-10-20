@@ -8,8 +8,6 @@ glyph: 庭
 features:
   - name: Daily practice
     text: One short session fits into a normal day. Showing up matters more than doing a lot.
-  - name: Real sentences
-    text: Words are learned the way they're used, inside sentences rather than on their own.
   - name: Spaced repetition
     text: Reviews come back on a schedule, so what you've learned stays learned.
   - name: Offline-first

@@ -20,6 +20,7 @@ import { plateSvg } from '../scripts/mark';
       </div>
       <div class="art">
         <Fragment set:html={plateSvg().replace('<svg ', '<svg aria-hidden="true" ')} />
+        <canvas aria-hidden="true"></canvas>
         <p class="note meta">grows ~5&nbsp;mm<br />a year</p>
       </div>
       <figcaption id="plate-cap">
@@ -28,6 +29,16 @@ import { plateSvg } from '../scripts/mark';
     </figure>
   </div>
 </section>
+
+<script>
+  import { mountOrb } from '../scripts/orb';
+  // Reduced motion keeps the static SVG drawing.
+  const art = document.querySelector<HTMLElement>('.plate .art');
+  const canvas = art?.querySelector('canvas');
+  if (art && canvas && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    mountOrb(canvas, () => art.classList.add('live'));
+  }
+</script>
 
 <style>
   .hero {
@@ -81,6 +92,19 @@ import { plateSvg } from '../scripts/mark';
     display: block;
     width: 100%;
     height: auto;
+  }
+  canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+  }
+  .live canvas {
+    display: block;
+  }
+  .live :global(.ball) {
+    display: none;
   }
   /* sits at the end of the leader line drawn in plateSvg() */
   .note {
