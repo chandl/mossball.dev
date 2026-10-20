@@ -1,0 +1,32 @@
+---
+import Mark from './Mark.astro';
+---
+
+<a href="/" class="logo" aria-label="Mossball Labs home">
+  <Mark />
+  <span>mossball <b>labs</b></span>
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo :global(svg) {
+    width: 30px;
+    height: 30px;
+    flex: none;
+  }
+  span {
+    font-family: var(--logo);
+    white-space: nowrap;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  b {
+    font-weight: inherit;
+    color: var(--moss);
+  }
+</style>

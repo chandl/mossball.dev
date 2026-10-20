@@ -1,0 +1,50 @@
+---
+import Logo from './Logo.astro';
+---
+
+<header>
+  <div class="wrap">
+    <Logo />
+    <nav>
+      <a href="/#products">Products</a>
+      <a href="/#about">About</a>
+      <a href="/#hello" class="btn btn-primary">Say hello</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgb(246 244 238 / 0.8);
+    backdrop-filter: blur(12px);
+  }
+  .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    font-size: 15px;
+    color: var(--ink-2);
+  }
+  nav a:not(.btn):hover {
+    color: var(--ink);
+  }
+  .btn {
+    height: 38px;
+    padding-inline: 16px;
+    font-size: 14px;
+  }
+  @media (max-width: 640px) {
+    nav a:not(.btn) {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,52 @@
+---
+import { company } from '../data/company';
+---
+
+<section id="about" class="section">
+  <div class="wrap about reveal">
+    <div>
+      <span class="label"><i>3</i>About</span>
+      <blockquote class="serif">
+        Named after the marimo, a moss ball that keeps <em>growing</em> for decades, one layer at a time.
+      </blockquote>
+    </div>
+    <div class="body">
+      <p>
+        {company.legalName} is an independent software company in {company.location}, founded by <a
+          href={company.founder.url}>{company.founder.name}</a
+        >.
+      </p>
+      <p>We make a small number of products and look after each one for years.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: clamp(32px, 6vw, 80px);
+    align-items: center;
+  }
+  blockquote {
+    margin: 16px 0 0;
+    font-size: clamp(28px, 3.4vw, 40px);
+    line-height: 1.2;
+  }
+  .body {
+    display: grid;
+    gap: 14px;
+    color: var(--ink-2);
+    font-size: 17px;
+  }
+  .body a {
+    color: var(--ink);
+    font-weight: 600;
+    border-bottom: 2px solid var(--moss-2);
+  }
+  @media (max-width: 880px) {
+    .about {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

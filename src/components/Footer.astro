@@ -1,0 +1,38 @@
+---
+import Logo from './Logo.astro';
+import { company } from '../data/company';
+---
+
+<footer>
+  <div class="wrap">
+    <Logo />
+    <nav>
+      <a href="/privacy">Privacy</a>
+      <a href={`mailto:${company.email}`}>Contact</a>
+      <span>© {company.founded} {company.legalName}</span>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  footer {
+    padding-block: 32px 48px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  a:hover {
+    color: var(--ink);
+  }
+</style>

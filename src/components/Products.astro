@@ -1,0 +1,162 @@
+---
+import { getCollection } from 'astro:content';
+
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+
+const statusLabel = { live: 'Live', waitlist: 'Waitlist open', sprouting: 'Sprouting' } as const;
+const host = (url: string) => new URL(url).host;
+---
+
+<section id="products" class="section">
+  <div class="wrap">
+    <header class="section-head reveal">
+      <span class="label"><i>1</i>Products</span>
+      <h2 class="section-title serif">What we're <em>growing.</em></h2>
+    </header>
+
+    <div class="grid">
+      {
+        products.map(({ data }) => {
+          const Tag = data.url ? 'a' : 'div';
+          return (
+            <Tag class:list={['card reveal', `tone-${data.tone}`, { seedling: !data.url }]} href={data.url}>
+              <div class="top">
+                <div class="icon">
+                  {data.icon ?? (
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12 21v-9" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+                      <path d="M12 13C12 8 8 6 4 6c0 4 3 7 8 7z" fill="currentColor" opacity=".55" />
+                      <path d="M12 11c0-4 3-6 8-6 0 4-3 6-8 6z" fill="currentColor" />
+                    </svg>
+                  )}
+                </div>
+                <span class={`status status-${data.status}`}>{statusLabel[data.status]}</span>
+              </div>
+              <h3 class="serif">{data.name}</h3>
+              <p>{data.tagline}</p>
+              {data.tags.length > 0 && (
+                <ul class="tags">
+                  {data.tags.map((t) => (
+                    <li>{t}</li>
+                  ))}
+                </ul>
+              )}
+              {data.url && <span class="go">{host(data.url)} →</span>}
+            </Tag>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+  }
+  .card {
+    --tone: var(--moss-tint);
+    --tone-ink: var(--moss);
+    display: grid;
+    gap: 14px;
+    align-content: start;
+    padding: 28px;
+    border-radius: 28px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    transition: transform 0.35s var(--ease);
+  }
+  .tone-peach {
+    --tone: var(--peach);
+    --tone-ink: var(--peach-ink);
+  }
+  .tone-sky {
+    --tone: var(--sky);
+    --tone-ink: #2f5d75;
+  }
+  a.card:hover {
+    transform: translateY(-4px);
+  }
+  .card.seedling {
+    background: transparent;
+    box-shadow: none;
+    border: 1.5px dashed var(--line-2);
+  }
+  .seedling h3 {
+    color: var(--muted);
+  }
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .icon {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: var(--tone);
+    color: var(--tone-ink);
+    font-size: 26px;
+  }
+  .icon svg {
+    width: 26px;
+    height: 26px;
+  }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--tone);
+    color: var(--tone-ink);
+  }
+  .status::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  h3 {
+    font-size: 32px;
+    line-height: 1.1;
+  }
+  p {
+    color: var(--ink-2);
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tags li {
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--bg);
+    color: var(--ink-2);
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .go {
+    margin-top: 4px;
+    font-weight: 600;
+    color: var(--moss);
+  }
+  @media (max-width: 880px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

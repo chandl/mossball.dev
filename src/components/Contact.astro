@@ -1,0 +1,65 @@
+---
+import Mark from './Mark.astro';
+import { company } from '../data/company';
+---
+
+<section id="hello" class="section">
+  <div class="wrap">
+    <div class="hello reveal">
+      <Mark class="ball" />
+      <div>
+        <h2 class="serif">Say hello!</h2>
+        <p>Questions, ideas, partnerships, or a bug you found. We read every message.</p>
+      </div>
+      <a class="btn" href={`mailto:${company.email}`}>{company.email}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .section {
+    padding-top: 0;
+  }
+  .hello {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: center;
+    padding: clamp(36px, 6vw, 72px);
+    border-radius: 36px;
+    background: var(--moss);
+    color: #fff;
+  }
+  h2 {
+    font-size: clamp(36px, 5vw, 60px);
+    line-height: 1;
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+  }
+  p {
+    margin-top: 12px;
+    color: #d6e5d0;
+    max-width: 40ch;
+  }
+  .btn {
+    position: relative;
+    background: #fff;
+    color: var(--moss);
+    border: 0;
+  }
+  .hello :global(.ball) {
+    position: absolute;
+    right: -60px;
+    bottom: -90px;
+    width: 280px;
+    height: 280px;
+    opacity: 0.14;
+    pointer-events: none;
+  }
+  @media (max-width: 880px) {
+    .hello {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

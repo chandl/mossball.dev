@@ -1,0 +1,12 @@
+---
+import { markSvg } from '../scripts/mark';
+
+interface Props {
+  class?: string;
+}
+const { class: cls } = Astro.props;
+// Inline the generated SVG, adding the class and hiding it from screen readers.
+const svg = markSvg().replace('<svg ', `<svg aria-hidden="true"${cls ? ` class="${cls}"` : ''} `);
+---
+
+<Fragment set:html={svg} />
