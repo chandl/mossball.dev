@@ -6,5 +6,5 @@ export const company = {
   founded: 2026,
   founder: { name: 'Chandler Severson', url: 'https://chandl.io' },
   description:
-    'Mossball Labs is an independent studio that designs, builds and runs its own apps, starting with Niwa, a friendly way to learn Japanese.',
+    'Mossball Labs is an independent studio that makes a few small apps and keeps improving them, starting with Niwa, a friendly way to learn Japanese.',
 };
